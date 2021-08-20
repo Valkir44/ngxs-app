@@ -1,0 +1,41 @@
+<div *ngIf="state$ | async as state" class="container">
+
+  <h1><span class="badge badge-primary">NGXS</span> Salad Bar</h1>
+
+
+  <p>Order ID: <span class="badge badge-success">{{ state.orderId }}</span></p>
+  <p>Username: <span class="badge badge-success">{{ state.username }}</span></p>
+
+  <div *ngIf="!state.username">
+    <input class="form-control" aria-placeholder="your name..." type="text" [(ngModel)]="username">
+    <button class="btn btn-outline-secondary" [disabled]="!username" (click)="clickHandler(username)">Name for this
+      Order
+    </button>
+  </div>
+
+
+  <hr>
+
+  <router-outlet></router-outlet>
+
+  <button *ngIf="state.username" class="btn btn-outline-dark btn-block loading" (click)="confirm()">Confirm Order
+  </button>
+
+
+  <div [ngSwitch]="state.status">
+
+    <div *ngSwitchCase="'pending'" class="alert alert-primary">
+      Confirming order....
+    </div>
+
+    <div *ngSwitchCase="'confirmed'" class="alert alert-success">
+      Success!
+    </div>
+
+    <div *ngSwitchCase="'declined'" class="alert alert-danger">
+      Declined :(
+    </div>
+
+  </div>
+
+</div>
